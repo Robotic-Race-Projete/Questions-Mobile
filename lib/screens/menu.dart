@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:projete_app/models/user.notify.dart';
+import 'package:get_it/get_it.dart';
+import 'package:projete_app/models/socket.dart';
+import 'package:projete_app/models/user.dart';
 import 'package:provider/provider.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -19,8 +21,6 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  late IO.Socket socket;
-
   @override
   void initState() {
     super.initState();
@@ -34,15 +34,14 @@ class _MenuPageState extends State<MenuPage> {
             MenuTitle(), 
             Consumer<UserModel>(
               builder: (context, user, child) {
-                return user.isUserSet
+                return user.isRegistred
                 ? MenuOptions()
                 : MenuSignUp();
               }
             )
           ],
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      ),
-      backgroundColor: Colors.lightGreen[100],
+      )
     );
   }
 }

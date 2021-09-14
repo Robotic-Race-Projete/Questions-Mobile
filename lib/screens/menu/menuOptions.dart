@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:projete_app/models/lobby.dart';
+import 'package:projete_app/models/navigation.dart';
+import 'package:provider/provider.dart';
 
 class MenuOptions extends StatelessWidget {
   double fontSize = 26;
@@ -22,8 +26,8 @@ class MenuOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var onPress = () => Navigator.pushNamed(context, '/lobby/create')
-        .onError((error, stackTrace) => null);
+    var lobbyModel = Provider.of<LobbyModel>(context);
+    var onPress = () => lobbyModel.createLobby();
 
     return Padding(
       child: Column(

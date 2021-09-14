@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:projete_app/models/user.notify.dart';
+import 'package:projete_app/models/user.dart';
 import 'package:provider/provider.dart';
 
 /// Part of menu
