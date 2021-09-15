@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:projete_app/models/socket.dart';
+import 'package:projete_app/services/socket.dart';
 import 'package:projete_app/models/user.dart';
 import 'package:provider/provider.dart';
 

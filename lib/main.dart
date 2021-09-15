@@ -1,37 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:get/utils.dart';
 import 'package:get_it/get_it.dart';
 import 'package:projete_app/models/lobby.dart';
-import 'package:projete_app/models/navigation.dart';
-import 'package:projete_app/models/socket.dart';
+import 'package:projete_app/services/alert.dart';
+import 'package:projete_app/services/navigation.dart';
+import 'package:projete_app/services/socket.dart';
 import 'package:projete_app/screens/lobby.dart';
 import 'package:projete_app/screens/menu.dart';
 import 'package:provider/provider.dart';
-
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'models/user.dart';
 
 void setupLocator() {
   GetIt.instance.registerSingleton<SocketClient>(SocketClient());
-  GetIt.instance.registerSingleton<UserModel>(UserModel());
   GetIt.instance.registerSingleton<NavigationService>(NavigationService());
-  GetIt.instance.registerSingleton<LobbyModel>(LobbyModel());
+  // GetIt.instance.registerSingleton<AlertService>(AlertService());
 }
 
 void main() {
   setupLocator();
-  var userModel = GetIt.instance.get<UserModel>();
-  var lobbyModel = GetIt.instance.get<LobbyModel>();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => userModel
+          create: (context) => UserModel()
         ),
         ChangeNotifierProvider(
-          create: (context) => lobbyModel
+          create: (context) => LobbyModel()
         )
       ], 
       child: MyApp()

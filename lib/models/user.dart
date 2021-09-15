@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:projete_app/models/navigation.dart';
-import 'package:projete_app/models/socket.dart';
+import 'package:projete_app/services/navigation.dart';
+import 'package:projete_app/services/socket.dart';
+
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class UserModel extends ChangeNotifier {
-  UserModel();
-
+  
   bool isRegistred = false;
   String nickname = "";
 
+  final socketClient = GetIt.instance.get<SocketClient>();
+  final navService = GetIt.instance.get<NavigationService>();
+
+  UserModel() {
+    socketClient.io.onDisconnect((data) => this.onUserDisconnect());
+  }
+
+
   void setNickname (String newNickname) {
     if (isRegistred) return;
-
-    var socketClient = GetIt.instance.get<SocketClient>();
 
     Map<String, dynamic> request = {
       "nickname": newNickname
@@ -34,7 +41,6 @@ class UserModel extends ChangeNotifier {
     nickname = "";
     isRegistred = false;
 
-    var navService = GetIt.instance.get<NavigationService>();
     navService.navigateTo('/');
   }
 }

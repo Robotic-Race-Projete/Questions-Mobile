@@ -1,5 +1,3 @@
-import 'package:get_it/get_it.dart';
-import 'package:projete_app/models/user.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketClient {
@@ -12,8 +10,6 @@ class SocketClient {
 
   void onDisconnect (dynamic) {
     print('IO socket disconnected!');
-    var navService = GetIt.instance.get<UserModel>();
-    navService.onUserDisconnect();
   }
 
   final io = IO.io(

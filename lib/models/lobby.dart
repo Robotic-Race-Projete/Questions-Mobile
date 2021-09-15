@@ -1,28 +1,28 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:projete_app/dto/lobbyDto.dart';
-import 'package:projete_app/models/socket.dart';
+import 'package:projete_app/services/socket.dart';
 
-import 'navigation.dart';
+import '../services/navigation.dart';
+
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class LobbyModel extends ChangeNotifier {
 
+  bool isOnLobby = false;
   LobbyDto? lobby;
-  late SocketClient socketClient;
-  late NavigationService navService;
+
+  final SocketClient socketClient = GetIt.instance.get<SocketClient>();
+  final NavigationService navService = GetIt.instance.get<NavigationService>();
 
   LobbyModel() {
-    socketClient = GetIt.instance.get<SocketClient>();
     socketClient.io.on(
       'session', 
       (data) => onLobbyUpdate(
         LobbyDto.fromJson(data)
       )
     );
-
-    navService = GetIt.instance.get<NavigationService>();
+    socketClient.io.onDisconnect((data) => navService.navigateTo('/'));
   }
 
   void onLobbyUpdate (LobbyDto lobbyDto) {
@@ -41,7 +41,6 @@ class LobbyModel extends ChangeNotifier {
 
   void exitLobby () {
     socketClient.io.emit('exit_room');
-    var navService = GetIt.instance.get<NavigationService>();
     navService.navigateTo('/');
   }
 
@@ -49,7 +48,9 @@ class LobbyModel extends ChangeNotifier {
     socketClient.io.emit('create_room');
   }
 
-  void joinLobby () {
-    
+  void joinLobby (String code) {
+    socketClient.io.emit('join_room', <String, dynamic>{
+      'room_id': code
+    });
   }
 }

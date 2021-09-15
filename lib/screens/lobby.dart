@@ -5,6 +5,7 @@ import 'package:projete_app/dto/playerDto.dart';
 import 'package:projete_app/models/lobby.dart';
 import 'package:projete_app/screens/lobby/codebox.dart';
 import 'package:projete_app/screens/lobby/playerlist.dart';
+import 'package:provider/provider.dart';
 
 import 'lobby/LobbyOptions.dart';
 
@@ -18,7 +19,7 @@ class LobbyScreen extends StatefulWidget {
 class _LobbyScreenState extends State<LobbyScreen> {
   @override
   Widget build(BuildContext context) {
-    var lobbyModel = GetIt.instance.get<LobbyModel>();
+    var lobbyModel = Provider.of<LobbyModel>(context);
 
     List<PlayerDto> players = lobbyModel
       .lobby!
