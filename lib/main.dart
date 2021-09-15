@@ -11,7 +11,14 @@ import 'models/user.dart';
 
 
 void setupLocator() {
-  GetIt.instance.registerSingleton<SocketClient>(SocketClient());
+  var socketClient = SocketClient();
+
+  GetIt.instance.registerSingleton<SocketClient>(socketClient);
+
+  socketClient.io.on('game_feed', (data) => Get.snackbar(
+    data, '', 
+    backgroundColor: Colors.orange,
+  ));
 }
 
 void main() {

@@ -18,16 +18,11 @@ class LobbyModel extends ChangeNotifier {
 
   LobbyModel() {
     socketClient.io.on(
-      'session', 
+      'lobby', 
       (data) => onLobbyUpdate(
         LobbyDto.fromJson(data)
       )
     );
-
-    socketClient.io.on('lobby', (data) => Get.snackbar(
-      data, '', 
-      backgroundColor: Colors.orange,
-    ));
 
     socketClient.io.onDisconnect((data) => this.onDisconnectOrExit());
   }

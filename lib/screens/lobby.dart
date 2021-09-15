@@ -25,7 +25,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
     return Scaffold(
       body: Column(
         children: [
-          LobbyCodeBox(lobbyModel.lobby!.id),
+          LobbyCodeBox(lobbyModel.lobby?.id ?? "Error"),
           PlayerListWidget(players: players),
           LobbyOptions(
             buttons: [
