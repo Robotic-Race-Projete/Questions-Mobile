@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class LobbyCodeBox extends StatelessWidget {
 
-  String lobbyId;
+  final String lobbyId;
   LobbyCodeBox(this.lobbyId);
 
   @override
@@ -20,7 +20,7 @@ class LobbyCodeBox extends StatelessWidget {
           ),
         ),
         Text(
-          '${lobbyId}',
+          lobbyId,
           style: TextStyle(
             fontSize: 40, 
             fontWeight: FontWeight.bold, 

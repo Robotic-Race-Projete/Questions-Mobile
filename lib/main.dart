@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:projete_app/models/lobby.dart';
-import 'package:projete_app/services/alert.dart';
-import 'package:projete_app/services/navigation.dart';
 import 'package:projete_app/services/socket.dart';
 import 'package:projete_app/screens/lobby.dart';
 import 'package:projete_app/screens/menu.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 import 'models/user.dart';
 
+
 void setupLocator() {
   GetIt.instance.registerSingleton<SocketClient>(SocketClient());
-  GetIt.instance.registerSingleton<NavigationService>(NavigationService());
-  // GetIt.instance.registerSingleton<AlertService>(AlertService());
 }
 
 void main() {
@@ -48,7 +46,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => MenuPage(),
         '/lobby': (context) => LobbyScreen(),
       },
-      navigatorKey: GetIt.instance.get<NavigationService>().navigatorKey,
+      navigatorKey: Get.key,
     );
   }
 }

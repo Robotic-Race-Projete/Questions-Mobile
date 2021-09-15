@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:projete_app/dto/playerDto.dart';
 import 'package:projete_app/models/lobby.dart';
 import 'package:projete_app/screens/lobby/codebox.dart';
@@ -21,12 +20,8 @@ class _LobbyScreenState extends State<LobbyScreen> {
   Widget build(BuildContext context) {
     var lobbyModel = Provider.of<LobbyModel>(context);
 
-    List<PlayerDto> players = lobbyModel
-      .lobby!
-      .Players
-      .map((playerAtLobby) => playerAtLobby.Player)
-      .toList();
-
+    List<PlayerDto> players = lobbyModel.getPlayers() ?? [];
+      
     return Scaffold(
       body: Column(
         children: [

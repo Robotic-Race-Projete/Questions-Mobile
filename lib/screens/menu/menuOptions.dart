@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:projete_app/models/lobby.dart';
-import 'package:projete_app/services/navigation.dart';
 import 'package:provider/provider.dart';
 
 class MenuOptions extends StatelessWidget {
-  double fontSize = 26;
+  final double fontSize = 26;
 
-  TextStyle textStyle = TextStyle(fontSize: 26, color: Colors.black);
+  final TextStyle textStyle = TextStyle(fontSize: 26, color: Colors.black);
 
   Widget createButton(onPress, text) {
     return ElevatedButton(

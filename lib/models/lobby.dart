@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:projete_app/dto/lobbyDto.dart';
+import 'package:projete_app/dto/playerDto.dart';
+import 'package:projete_app/screens/lobby.dart';
+import 'package:projete_app/screens/menu.dart';
 import 'package:projete_app/services/socket.dart';
-
-import '../services/navigation.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -13,7 +15,6 @@ class LobbyModel extends ChangeNotifier {
   LobbyDto? lobby;
 
   final SocketClient socketClient = GetIt.instance.get<SocketClient>();
-  final NavigationService navService = GetIt.instance.get<NavigationService>();
 
   LobbyModel() {
     socketClient.io.on(
@@ -22,26 +23,43 @@ class LobbyModel extends ChangeNotifier {
         LobbyDto.fromJson(data)
       )
     );
-    socketClient.io.onDisconnect((data) => navService.navigateTo('/'));
+
+    socketClient.io.on('lobby', (data) => Get.snackbar(
+      data, '', 
+      backgroundColor: Colors.orange,
+    ));
+
+    socketClient.io.onDisconnect((data) => this.onDisconnectOrExit());
+  }
+
+  List<PlayerDto>? getPlayers () {
+    return this.lobby
+      ?.Players
+      .map((playerAtLobby) => playerAtLobby.Player)
+      .toList();
   }
 
   void onLobbyUpdate (LobbyDto lobbyDto) {
-    this.lobby = lobbyDto;
-
-    print(this.lobby);
-    if (this.lobby != null) {
-      var navService = GetIt.instance.get<NavigationService>();
-      navService
-        .navigateTo('/lobby')
-        ?.catchError((err) => print(err));
+    if (this.lobby == null) {
+      Get.to(() => LobbyScreen());
     }
+
+    this.lobby = lobbyDto;
+    print(this.lobby);
     
     this.notifyListeners();
   }
 
   void exitLobby () {
     socketClient.io.emit('exit_room');
-    navService.navigateTo('/');
+    onDisconnectOrExit();
+  }
+
+  void onDisconnectOrExit () {
+    this.lobby = null;
+    Get.to(() => MenuPage());
+
+    this.notifyListeners();
   }
 
   void createLobby () {
