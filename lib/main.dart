@@ -18,7 +18,7 @@ void setupLocator() {
 
   socketClient.io.on('game_feed', (data) => Get.snackbar(
     data, '', 
-    backgroundColor: Colors.orange,
+    backgroundColor: Colors.green[200],
   ));
 }
 
