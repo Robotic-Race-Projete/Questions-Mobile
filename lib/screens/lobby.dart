@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:projete_app/dto/playerDto.dart';
+import 'package:projete_app/dto/playerAtLobbyDto.dart';
 import 'package:projete_app/models/lobby.dart';
 import 'package:projete_app/screens/lobby/codebox.dart';
 import 'package:projete_app/screens/lobby/playerlist.dart';
@@ -20,7 +20,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
   Widget build(BuildContext context) {
     var lobbyModel = Provider.of<LobbyModel>(context);
 
-    List<PlayerDto> players = lobbyModel.getPlayers() ?? [];
+    List<PlayerAtLobbyDto> players = lobbyModel.lobby?.Players ?? [];
       
     return Scaffold(
       body: Column(
@@ -35,8 +35,11 @@ class _LobbyScreenState extends State<LobbyScreen> {
                 color: Colors.red,
               ),
               MaterialButton(
-                onPressed: () {}, 
-                child: Text('Pronto', style: TextStyle(color: Colors.white)),
+                onPressed: () => lobbyModel.readyUp(), 
+                child: Text(
+                  lobbyModel.isReady ? 'Remover Pronto' : 'Pronto', 
+                  style: TextStyle(color: Colors.white)
+                ),
                 color: Colors.green
               )
             ]

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:projete_app/dto/lobbyDto.dart';
+import 'package:projete_app/dto/playerAtLobbyDto.dart';
 import 'package:projete_app/dto/playerDto.dart';
 import 'package:projete_app/screens/lobby.dart';
 import 'package:projete_app/screens/menu.dart';
@@ -12,6 +13,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 class LobbyModel extends ChangeNotifier {
 
   bool isOnLobby = false;
+  bool isReady = false;
   LobbyDto? lobby;
 
   final SocketClient socketClient = GetIt.instance.get<SocketClient>();
@@ -23,14 +25,20 @@ class LobbyModel extends ChangeNotifier {
         LobbyDto.fromJson(data)
       )
     );
+    socketClient.io.on(
+      'status_at_lobby', 
+      (data) => onPlayerLobbyStatusChanged(
+        PlayerAtLobbyDto.fromJson(data)
+      )
+    );
 
     socketClient.io.onDisconnect((data) => this.onDisconnectOrExit());
   }
 
-  List<PlayerDto>? getPlayers () {
+  List<PlayerAtLobbyDto>? getPlayers () {
     return this.lobby
       ?.Players
-      .map((playerAtLobby) => playerAtLobby.Player)
+      .map((playerAtLobby) => playerAtLobby)
       .toList();
   }
 
@@ -57,6 +65,10 @@ class LobbyModel extends ChangeNotifier {
     this.notifyListeners();
   }
 
+  void onPlayerLobbyStatusChanged (PlayerAtLobbyDto status) {
+    this.isReady = status.isReady;
+  }
+
   void createLobby () {
     socketClient.io.emit('create_room');
   }
@@ -64,6 +76,12 @@ class LobbyModel extends ChangeNotifier {
   void joinLobby (String code) {
     socketClient.io.emit('join_room', <String, dynamic>{
       'room_id': code
+    });
+  }
+
+  void readyUp () {
+    socketClient.io.emit('ready_up', <String, dynamic>{
+      'value': !this.isReady
     });
   }
 }

@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:projete_app/dto/playerDto.dart';
+import 'package:projete_app/dto/playerAtLobbyDto.dart';
 
 class PlayerListWidget extends StatelessWidget {
-  final List<PlayerDto> players;
+  final List<PlayerAtLobbyDto> players;
 
   PlayerListWidget({required this.players});
 
   @override
   Widget build(BuildContext context) {
-    var playerMapper = (player) => ListTile(
+    var playerMapper = (PlayerAtLobbyDto player) => ListTile(
       leading: Icon(
-        Icons.star,
+        player.isReady ? Icons.check : Icons.unpublished,
         color: Colors.green
       ),
       title: Text(
-        player.nickname, 
+        player.Player.nickname, 
         textAlign: TextAlign.left,
         style: TextStyle(
           fontSize: 34,
