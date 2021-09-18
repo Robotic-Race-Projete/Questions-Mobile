@@ -7,12 +7,14 @@ part 'lobbyDto.g.dart';
 class LobbyDto {
   String id;
   String createdAt;
+  bool isOnMatch;
   // ignore: non_constant_identifier_names
   List<PlayerAtLobbyDto> Players;
 
   LobbyDto({
     required this.id, 
     required this.createdAt, 
+    required this.isOnMatch,
     // ignore: non_constant_identifier_names
     required this.Players
   });

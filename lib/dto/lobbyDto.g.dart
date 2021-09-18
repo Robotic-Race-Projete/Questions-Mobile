@@ -10,6 +10,7 @@ LobbyDto _$LobbyDtoFromJson(Map<String, dynamic> json) {
   return LobbyDto(
     id: json['id'] as String,
     createdAt: json['createdAt'] as String,
+    isOnMatch: json['isOnMatch'] as bool,
     Players: (json['Players'] as List<dynamic>)
         .map((e) => PlayerAtLobbyDto.fromJson(e as Map<String, dynamic>))
         .toList(),
@@ -19,5 +20,6 @@ LobbyDto _$LobbyDtoFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$LobbyDtoToJson(LobbyDto instance) => <String, dynamic>{
       'id': instance.id,
       'createdAt': instance.createdAt,
+      'isOnMatch': instance.isOnMatch,
       'Players': instance.Players,
     };

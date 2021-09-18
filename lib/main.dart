@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:projete_app/models/lobby.dart';
+import 'package:projete_app/models/match.model.dart';
 import 'package:projete_app/services/socket.dart';
 import 'package:projete_app/screens/lobby.dart';
 import 'package:projete_app/screens/menu.dart';
@@ -32,6 +33,9 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (context) => LobbyModel()
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MatchModel(),
         )
       ], 
       child: MyApp()

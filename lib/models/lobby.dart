@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:projete_app/dto/lobbyDto.dart';
 import 'package:projete_app/dto/playerAtLobbyDto.dart';
-import 'package:projete_app/dto/playerDto.dart';
 import 'package:projete_app/screens/lobby.dart';
 import 'package:projete_app/screens/menu.dart';
+import 'package:projete_app/screens/question.dart';
 import 'package:projete_app/services/socket.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -47,8 +47,14 @@ class LobbyModel extends ChangeNotifier {
       Get.to(() => LobbyScreen());
     }
 
+    print(lobbyDto);
+
     this.lobby = lobbyDto;
     print(this.lobby);
+
+    if (lobbyDto.isOnMatch) {
+      onLobbyStartedMatch();
+    }
     
     this.notifyListeners();
   }
@@ -60,6 +66,9 @@ class LobbyModel extends ChangeNotifier {
 
   void onDisconnectOrExit () {
     this.lobby = null;
+    this.isReady = false;
+    this.isOnLobby = false;
+
     Get.to(() => MenuPage());
 
     this.notifyListeners();
@@ -67,6 +76,10 @@ class LobbyModel extends ChangeNotifier {
 
   void onPlayerLobbyStatusChanged (PlayerAtLobbyDto status) {
     this.isReady = status.isReady;
+  }
+
+  void onLobbyStartedMatch () {
+    Get.to(() => QuestionScreen());
   }
 
   void createLobby () {
