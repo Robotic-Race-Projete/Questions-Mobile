@@ -6,7 +6,7 @@ import 'package:projete_app/dto/playerAtLobbyDto.dart';
 import 'package:projete_app/screens/lobby.dart';
 import 'package:projete_app/screens/menu.dart';
 import 'package:projete_app/screens/question.dart';
-import 'package:projete_app/services/socket.dart';
+import 'package:projete_app/services/socketService.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 

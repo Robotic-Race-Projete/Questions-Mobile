@@ -13,7 +13,8 @@ class SocketClient {
   }
 
   final io = IO.io(
-      "http://127.0.0.1:3050",
+      // "http://:3050",c
+      "http://192.168.0.109:3050",
       IO.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()

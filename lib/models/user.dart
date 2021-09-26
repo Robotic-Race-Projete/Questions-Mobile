@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:projete_app/dto/sessionDto.dart';
 import 'package:projete_app/screens/menu.dart';
-import 'package:projete_app/services/socket.dart';
+import 'package:projete_app/services/socketService.dart';
 import 'package:get/get.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:projete_app/dto/answerDto.dart';
 import 'package:projete_app/dto/questionDto.dart';
-import 'package:projete_app/services/socket.dart';
+import 'package:projete_app/services/socketService.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 

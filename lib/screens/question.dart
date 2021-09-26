@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:projete_app/dto/answerDto.dart';
+import 'package:projete_app/models/car.dart';
 import 'package:projete_app/models/match.model.dart';
-import 'package:projete_app/screens/question/Answers.dart';
 import 'package:projete_app/screens/question/QuestionInterface.dart';
 import 'package:provider/provider.dart';
 
@@ -10,12 +10,16 @@ class QuestionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var matchModel = Provider.of<MatchModel>(context);
+    var carModel = Provider.of<CarModel>(context);
     var question = matchModel.question;
 
     if (question != null) {
 
       void onAnswer (AnswerDto answer) {
         matchModel.sendQuestion(question, answer);
+        carModel.sendCommand('RUN', <String, dynamic>{
+          'time': 20
+        });
       }
 
       var body = matchModel.isQuestionAnswered
