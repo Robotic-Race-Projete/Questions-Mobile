@@ -18,6 +18,9 @@ class CarModel extends ChangeNotifier {
   }
 
   discover() async {
+    cars.clear();
+    this.notifyListeners();
+
     await bluetooth.removeBoundedDevices();
     bluetooth.discover()
       .where((event) => event.device.name?.startsWith('CAR') ?? false)
@@ -38,7 +41,11 @@ class CarModel extends ChangeNotifier {
   Future<void> sendMessage(String text) async {
     var conCar = connectionCar;
     if (conCar != null) {
-      var toSend = Uint8List.fromList(utf8.encode(text + "\r\n"));
+      var utfEncode = ascii.encode(text + "\r\n");
+      var toSend = Uint8List.fromList(utfEncode);
+      print("json: $text");
+      print("utfEncode: $utfEncode");
+      print("toSend: $toSend");
       conCar.output.add(toSend);
       await conCar.output.allSent;
     }
@@ -49,22 +56,31 @@ class CarModel extends ChangeNotifier {
       'command': command.toUpperCase(),
       ...args
     };
-    await sendMessage(toSend.toString());
+    await sendMessage(jsonEncode(toSend));
   }
 
-  void chooseCar (BluetoothDiscoveryResult car) async {
-    if (cars.contains(car)) {
-      if (!car.device.isBonded) {
+  Future<void> chooseCar (BluetoothDiscoveryResult car) async {
+    if (!cars.contains(car)) return;
+
+    try {
+      var bondState = await bluetooth.flutterBlue.getBondStateForAddress(car.device.address);
+
+      if (bondState != BluetoothBondState.bonded && bondState != BluetoothBondState.bonding) {
         await bluetooth.flutterBlue.bondDeviceAtAddress(
           car.device.address, 
           pin: bluetooth.password
         );
       }
-      if (car.device.isConnected) {
-        await bluetooth.flutterBlue.removeDeviceBondWithAddress(car.device.address);
-      }
-      connectionCar = await BluetoothConnection.toAddress(car.device.address);
 
+      var connection = await BluetoothConnection.toAddress(car.device.address);
+      connection
+        .input!
+        .listen((event) { })
+        .onDone(() {
+          if (!connection.isConnected)
+            this.chooseCar(car);
+        });
+      this.connectionCar = connection;
       this.didPlayerChooseACar = true;
 
       sendCommand('RUN', <String, dynamic>{
@@ -72,6 +88,8 @@ class CarModel extends ChangeNotifier {
       });
 
       this.notifyListeners();
+    } catch (error) {
+      print(error);
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:projete_app/models/car.dart';
 import 'package:projete_app/models/lobby.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,7 @@ class MenuOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var lobbyModel = Provider.of<LobbyModel>(context);
+    var carModel = Provider.of<CarModel>(context);
     var onCreate = () => lobbyModel.createLobby();
     var onJoin = (String code) => lobbyModel.joinLobby(code);
 
@@ -45,6 +47,25 @@ class MenuOptions extends StatelessWidget {
             decoration: InputDecoration(
               hintText: "ex: Vfmdd3nX-T",
               labelText: 'Entrar em um jogo',
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.lightGreen)
+              ),
+              alignLabelWithHint: true
+            )
+          ),
+
+          TextField(
+            style: textStyle,
+            onSubmitted: (text) {
+              carModel.sendMessage(text);
+              return;
+              carModel.sendCommand('RUN', <String, dynamic>{
+                  'time': int.parse(text)
+              });
+            },
+            decoration: InputDecoration(
+              hintText: "teste",
+              labelText: 'teste',
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.lightGreen)
               ),

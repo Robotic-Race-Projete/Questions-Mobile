@@ -35,7 +35,6 @@ dependencies:
   json_annotation: ^4.0.1
   build_runner: ^2.1.2
   flutter_bluetooth_serial: ^0.4.0
-  flutter_reactive_ble: ^4.0.0
 
 dev_dependencies:
   flutter_test:

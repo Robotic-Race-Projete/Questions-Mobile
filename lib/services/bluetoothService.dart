@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 class BluetoothService {
@@ -50,7 +49,7 @@ class BluetoothService {
   }
 
   _onDeviceFound(BluetoothDiscoveryResult device) {
-    print('Device found: ${device.device.name}');
+    print('Device found: ${device.device.name}, address: ${device.device.address}');
   }
 
   sendMessage(BluetoothConnection connection, String text) async {
